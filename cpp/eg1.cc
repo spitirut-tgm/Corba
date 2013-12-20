@@ -7,7 +7,7 @@
 // Usage: eg1
 //
 
-#include <echo.hh>
+#include "echo.hh"
 
 #ifdef HAVE_STD
 #  include <iostream>
