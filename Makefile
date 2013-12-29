@@ -1,3 +1,7 @@
+# includes #
+INCLUDE	= /usr/include/omniORB4/
+
+# programs #
 RM		= rm -f
 MKDIR	= mkdir -p
 CP		= cp
