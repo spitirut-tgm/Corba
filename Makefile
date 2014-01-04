@@ -1,42 +1,59 @@
-# includes #
-INCLUDE	= /usr/include/omniORB4/
+# compiler  #
+CXX 		= clang++
 
-# programs #
-RM		= rm -f
-MKDIR	= mkdir -p
-CP		= cp
+# includes 	#
+INCLUDE		= /usr/include/omniORB4/
+
+# libraries	#
+#LIBRARY		= $(ORBACUS)/lib
+
+# flags		#
+CFLAGS
+CPPFLAGS
+
+# programs 	#
+RM			= rm -f
+MKDIR		= mkdir -p
+CP			= cp
+
+# code 		#
+CPP_HEADERS =
+CPP_SOURCES =
 
 all: build_cpp build_python
 
-build_cpp:
-	#_________                          
-	#\_   ___ \      __          __     
-	#/    \  \/   __|  |___   __|  |___ 
-	#\     \____ /__    __/  /__    __/ 
-	# \______  /    |__|        |__|    
-	#        \/                      
-
+echo.hh:
+	$(MKDIR) $(CPP_PATH)
 	# generate cpp stubs from idl file
-	$(MKDIR) build/cpp
-	omniidl -Cbuild/cpp -bcxx idl/echo.idl
+	omniidl -bcxx idl/echo.idl
 
+%.o: %.hh %.cc 
+    $(CC) $(CFLAGS) $(CPPFLAGS) -c $<
+
+clean_cpp:
+	rm *.o
+	rm echo.hh
+
+build_cpp: %.o
 	# copy cpp sources to build directory
-	$(CP) cpp/* build/cpp/
+	$(CP) cpp/* $(CPP_PATH)
+
+	# compile stuff
+
 
 build_python:
-	#_______________ ___ ______________ ___ ________    _______   
-	#\______   \__  |   |\__    ___/   |   \\_____  \   \      \  
-	# |     ___//   |   |  |    | /    ~    \/   |   \  /   |   \ 
+	#_______________ ___ ______________ ___ ________    _______
+	#\______   \__  |   |\__    ___/   |   \\_____  \   \      \
+	# |     ___//   |   |  |    | /    ~    \/   |   \  /   |   \
 	# |    |    \____   |  |    | \    Y    /    |    \/    |    \
 	# |____|    / ______|  |____|  \___|_  /\_______  /\____|__  /
-	#           \/                       \/         \/         \/ 
+	#           \/                       \/         \/         \/
 
 	# generate python stubs from idl file
-	$(MKDIR) build/python
-	omniidl -Cbuild/python -bpython idl/echo.idl
+	$(MKDIR) $(PYTHON_PATH)
+	omniidl -C$(PYTHON_PATH) -bpython idl/echo.idl
 
 	# copy python sources to build directory
-	$(CP) python/* build/python/
+	$(CP) python/* $(PYTHON_PATH)
 
 clean: 
-	-$(RM) -r build
