@@ -1,59 +1,55 @@
-# compiler  #
-CXX 		= clang++
-
 # includes 	#
-INCLUDE		= /usr/include/omniORB4/
+INCLUDE		= /usr/include/omniORB4/ .
 
 # libraries	#
-#LIBRARY		= $(ORBACUS)/lib
+LIBRARY		= $(ORBACUS)/lib
 
-# flags		#
-CFLAGS
-CPPFLAGS
+CC=gcc
+CXX=g++
+RM=rm -f
+CPPFLAGS=-g $(shell root-config --cflags) -I INCLUDE
+LDFLAGS=-g $(shell root-config --ldflags)
+#LDLIBS=$(shell root-config --libs)
+LDLIBS 		= /usr/lib/libomni*
 
 # programs 	#
-RM			= rm -f
+RM			= rm -rf
 MKDIR		= mkdir -p
 CP			= cp
 
-# code 		#
-CPP_HEADERS =
-CPP_SOURCES =
+OBJS		= echoSK.o eg3_impl.o
 
 all: build_cpp build_python
 
-echo.hh:
-	$(MKDIR) $(CPP_PATH)
+clean_cpp:
+	-$(RM) *.o
+	-$(RM) echo.hh
+	-$(RM) echoSK.cc
+
+idl_cpp:
 	# generate cpp stubs from idl file
 	omniidl -bcxx idl/echo.idl
 
-%.o: %.hh %.cc 
-    $(CC) $(CFLAGS) $(CPPFLAGS) -c $<
+echoSK.cc: idl_cpp
 
-clean_cpp:
-	rm *.o
-	rm echo.hh
+echo.hh: idl_cpp
 
-build_cpp: %.o
-	# copy cpp sources to build directory
-	$(CP) cpp/* $(CPP_PATH)
+echoSK.o: echoSK.cc echo.hh
 
-	# compile stuff
+eg3_impl.o: eg3_impl.cc echo.hh
 
+build_cpp: $(OBJS)
+	$(CXX) $(LDFLAGS) -o server $(OBJS) $(LDLIBS) 
 
-build_python:
-	#_______________ ___ ______________ ___ ________    _______
-	#\______   \__  |   |\__    ___/   |   \\_____  \   \      \
-	# |     ___//   |   |  |    | /    ~    \/   |   \  /   |   \
-	# |    |    \____   |  |    | \    Y    /    |    \/    |    \
-	# |____|    / ______|  |____|  \___|_  /\_______  /\____|__  /
-	#           \/                       \/         \/         \/
-
+idl_python:
 	# generate python stubs from idl file
-	$(MKDIR) $(PYTHON_PATH)
-	omniidl -C$(PYTHON_PATH) -bpython idl/echo.idl
+	omniidl -bpython idl/echo.idl
 
-	# copy python sources to build directory
-	$(CP) python/* $(PYTHON_PATH)
+build_python: idl_python
 
-clean: 
+clean_python:
+	-$(RM) _GlobalIDL
+	-$(RM) _GlobalIDL__POA
+	-$(RM) echo_idl.py
+
+clean: clean_cpp clean_python
