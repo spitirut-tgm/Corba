@@ -1,30 +1,16 @@
-# includes 	#
-INCLUDE		= /usr/include/omniORB4/ .
-
-# libraries	#
-LIBRARY		= $(ORBACUS)/lib
-
-CC=gcc
-CXX=g++
-RM=rm -f
-CPPFLAGS=-g $(shell root-config --cflags) -I INCLUDE
-LDFLAGS=-g $(shell root-config --ldflags)
-#LDLIBS=$(shell root-config --libs)
+CC 			= clang
+CXX 		= clang++
+RM 			= rm -rf
+CPPFLAGS 	= -g -I/usr/include/omniORB4/ -I.
+LDFLAGS 	= -g
 LDLIBS 		= /usr/lib/libomni*
 
-# programs 	#
-RM			= rm -rf
 MKDIR		= mkdir -p
 CP			= cp
 
-OBJS		= echoSK.o eg3_impl.o
+OBJS		= echoSK.o eg2_impl.o
 
-all: build_cpp build_python
-
-clean_cpp:
-	-$(RM) *.o
-	-$(RM) echo.hh
-	-$(RM) echoSK.cc
+all: cpp_client build_python
 
 idl_cpp:
 	# generate cpp stubs from idl file
@@ -36,10 +22,15 @@ echo.hh: idl_cpp
 
 echoSK.o: echoSK.cc echo.hh
 
-eg3_impl.o: eg3_impl.cc echo.hh
+eg2_impl.o: eg2_impl.cc echo.hh
 
-build_cpp: $(OBJS)
+cpp_client: $(OBJS)
 	$(CXX) $(LDFLAGS) -o server $(OBJS) $(LDLIBS) 
+
+clean_cpp_client:
+	-$(RM) *.o
+	-$(RM) echo.hh
+	-$(RM) echoSK.cc
 
 idl_python:
 	# generate python stubs from idl file
@@ -52,4 +43,4 @@ clean_python:
 	-$(RM) _GlobalIDL__POA
 	-$(RM) echo_idl.py
 
-clean: clean_cpp clean_python
+clean: clean_cpp_client clean_python
