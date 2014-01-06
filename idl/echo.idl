@@ -1,6 +1,11 @@
+#ifndef __ECHO_IDL__
+#define __ECHO_IDL__
+
 // echo_example.idl
 module Example {
   interface Echo {
     string echoString(in string mesg);
   };
 };
+
+#endif  // __ECHO_IDL__
