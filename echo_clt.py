@@ -1,12 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
 import sys
 
 # Import the CORBA module
 from omniORB import CORBA
 
-# Import the stubs for the global module
-import _GlobalIDL
+# Import the stubs for the Example module
+import Example
 
 # Initialise the ORB
 orb = CORBA.ORB_init(sys.argv, CORBA.ORB_ID)
@@ -18,19 +18,15 @@ ior = sys.argv[1]
 # Convert the IOR to an object reference
 obj = orb.string_to_object(ior)
 
-# Narrow reference to an Echo object
-eo  = obj._narrow(_GlobalIDL.Echo)
+# Narrow reference to an Example::Echo object
+eo = obj._narrow(Example.Echo)
 
 if eo is None:
-    print "Object reference is not an Echo"
+    print "Object reference is not an Example::Echo"
     sys.exit(1)
 
 # Invoke the echoString operation
-if len(sys.argv) == 3:
-    message = sys.argv[2]
-else:
-    message = "Hello from Python"
-
+message = "Hello from Python"
 result  = eo.echoString(message)
 
 print "I said '%s'. The object said '%s'." % (message,result)
