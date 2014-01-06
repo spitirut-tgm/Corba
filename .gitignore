@@ -1,11 +1,13 @@
 # python
 *.py[cod]
 echo_idl.py
-_GlobalIDL
-_GlobalIDL__POA   
+Example/
+Example__POA/
 
 # c
 echo.hh
 echoSK.cc
 server
+cxxserver
+cxxclient
 *.o
