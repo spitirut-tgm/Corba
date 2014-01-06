@@ -25,12 +25,12 @@ cpp_client: echoSK.o eg2_clt.o
 	$(CXX) $(LDFLAGS) -o cxxclient echoSK.o eg2_clt.o $(LDLIBS)
 
 idl_cpp:
-	$(CP) idl/echo_cxx.idl idl/echo.idl
+#	$(CP) idl/echo_cxx.idl idl/echo.idl
 
 # 	generate cpp stubs from idl file
 	omniidl -bcxx idl/echo.idl
 
-	-$(RM) idl/echo.idl
+#	-$(RM) idl/echo.idl
 
 echoSK.cc: idl_cpp
 
@@ -63,12 +63,12 @@ clean_cpp_client:
 build_python: idl_python
 
 idl_python:
-	$(CP) idl/echo_py.idl idl/echo.idl
+#	$(CP) idl/echo_py.idl idl/echo.idl
 
 # 	generate python stubs from idl file
 	omniidl -bpython idl/echo.idl 
 
-	-$(RM) idl/echo.idl
+#	-$(RM) idl/echo.idl
 
 clean_python:
 	-$(RM) Example/

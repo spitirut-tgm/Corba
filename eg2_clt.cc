@@ -17,6 +17,7 @@
 #  include <iostream.h>
 #endif
 
+using namespace Example;
 
 static void hello(Echo_ptr e)
 {

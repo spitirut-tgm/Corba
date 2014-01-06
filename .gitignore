@@ -4,7 +4,7 @@ echo_idl.py
 Example/
 Example__POA/
 
-# c
+# c++
 echo.hh
 echoSK.cc
 server
