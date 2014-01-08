@@ -11,3 +11,5 @@ server
 cxxserver
 cxxclient
 *.o
+
+git.log
