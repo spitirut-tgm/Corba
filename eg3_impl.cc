@@ -156,7 +156,7 @@ bindObjectToName(CORBA::ORB_ptr orb, CORBA::Object_ptr objref)
     // Bind objref with name Echo to the testContext:
     CosNaming::Name objectName;
     objectName.length(1);
-    objectName[0].id   = (const char*) "Echo";   // string copied
+    objectName[0].id   = (const char*) "ExampleEcho";   // string copied
     objectName[0].kind = (const char*) "Object"; // string copied
 
     try {

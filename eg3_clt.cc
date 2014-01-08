@@ -119,7 +119,7 @@ getObjectReference(CORBA::ORB_ptr orb)
 
   name[0].id   = (const char*) "test";       // string copied
   name[0].kind = (const char*) "my_context"; // string copied
-  name[1].id   = (const char*) "Echo";
+  name[1].id   = (const char*) "ExampleEcho";
   name[1].kind = (const char*) "Object";
   // Note on kind: The kind field is used to indicate the type
   // of the object. This is to avoid conventions such as that used
